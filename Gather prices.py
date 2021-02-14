@@ -9,7 +9,7 @@ import pandas as pd
 import requests
 import matplotlib.pyplot as plt
 from dash.exceptions import PreventUpdate
-from App import app, server
+from app import app, server
 from datetime import datetime
 import dash_auth
 import dash
