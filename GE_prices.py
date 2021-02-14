@@ -10,6 +10,8 @@ import requests
 import matplotlib.pyplot as plt
 from dash.exceptions import PreventUpdate
 from app import app, server
+from modules.debugger import show_callbacks
+
 from datetime import datetime
 import dash_auth
 import dash
@@ -75,7 +77,6 @@ def getGraph(name):
                         mode='lines',
                         name='Price of {}'.format(item)))
     for index,row in dfxp.iterrows():
-        print(row[0])
         if row[0] in list(prices.date):
             fig.add_vrect(
                 x0="{}".format(row[0]), x1="{}".format(row[1]),
@@ -92,82 +93,9 @@ def getGraph(name):
     else:
         raise PreventUpdate
 
-# display(pd.DataFrame(info['Noxious staff graph']))
-# name = "Willow logs"
-# r = requests.get("https://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item={}".format(get_item_ID(name)))
-
-
-# In[3]:
-
-
-# print(instance.item)
-
-
-# # In[4]:
-
-
-# item = name
-
-# price_frame = pd.DataFrame(info[item + ' graph']['daily'],index=['price']).transpose().reset_index()
-# price_frame['index'] = price_frame['index'].apply(lambda x: datetime.fromtimestamp(int(x)/1000).strftime('%Y-%m-%d'))
-# price_frame.set_index('index',inplace=True)
-
-
-# # In[10]:
-
-
-
-# fig = go.Figure()
-
-# dfxp = pd.read_csv('dxp_weeks.csv')
-# for col in dfxp:
-#     dfxp[col] = dfxp[col].apply(lambda x: datetime.strptime(x, '%d %B %Y (%H:%M)').strftime('%Y-%m-%d'))
-    
-# # subset_starting = {i:'red' for i in dfxp.Starting_Date.tolist()}
-# # subset_ending = {i:'red' for i in dfxp.Ending_Date.tolist()}
-# # print(subset_starting)
-# # subsets = subset_starting
-
-# prices = price_frame.reset_index().rename(columns={'index':'date'})
-
-# # prices['Colour'] = prices['date'].apply(lambda x: 'red' if x in subsets.keys() else 'blue')
-
-# window = 15
-
-# prices['average'] = prices.price.rolling(window).mean()
-
-
-# # fig.add_trace(go.Scatter(x=prices.date, y=prices.Colour,
-# #                     mode='markers',
-# #                     name='markers'))
-
-# fig.add_trace(go.Scatter(x=prices.date, y=prices.average,
-#                     mode='lines',
-#                     name='Running average over {} days'.format(window)))
-# fig.add_trace(go.Scatter(x=prices.date, y=prices.price,
-#                     mode='lines',
-#                     name='Price of {}'.format(item)))
-
-
-# for index,row in dfxp.iterrows():
-#     if row[0] in list(prices.date):
-#         fig.add_vrect(
-#             x0="{}".format(row[0]), x1="{}".format(row[1]),
-#             fillcolor="LightSalmon",
-#             layer="below"
-#         )
-
-# prices.set_index('date',inplace=True)
-# prices = prices.astype(object)
-
-# fig.show()
-
-# # display(prices)
-# # display(dfxp)
-
-
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8036,dev_tools_hot_reload=True)
+    print(show_callbacks(app))
+    app.run_server(debug=True, port=8037,dev_tools_hot_reload=True,dev_tools_prune_errors=True)
 
 # fig = px.scatter(prices,title=item, template="simple_white",color='Colour')
 # px.scatter(prices[['average','Colour']],title=item, template="simple_white",color='Colour')
