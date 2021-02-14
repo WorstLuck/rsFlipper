@@ -3,7 +3,7 @@
 
 # In[1]:
 
-from get_item import get_item,objects,dfxp
+from modules.get_item import get_item,objects,dfxp
 
 import pandas as pd
 import requests
