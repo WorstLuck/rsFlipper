@@ -65,14 +65,17 @@ def getGraph(name):
     price_frame.set_index('index',inplace=True)
 
     fig = go.Figure()
-
+    fig.update_layout(
+    autosize=False,
+    width=1920,
+    height=1080)
     prices = price_frame.reset_index().rename(columns={'index':'date'})
-    window = 15
-    prices['average'] = prices.price.rolling(window).mean()
-
-    fig.add_trace(go.Scatter(x=prices.date, y=prices.average,
+    windows = [3,7,15,30,45]
+    for i in windows:
+        prices['average{}'.format(i)] = prices.price.rolling(i).mean()
+        fig.add_trace(go.Scatter(x=prices.date, y=prices['average{}'.format(i)],
                         mode='lines',
-                        name='Running average over {} days'.format(window)))
+                        name='Running average over {} days'.format(i)))
     fig.add_trace(go.Scatter(x=prices.date, y=prices.price,
                         mode='lines',
                         name='Price of {}'.format(item)))
