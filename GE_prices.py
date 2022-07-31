@@ -48,7 +48,7 @@ app.layout = dbc.Container([
                 'title': 'Item','autosize':True}})
                         ],width = 12)
                     ])
-                            ])
+                            ],fluid=True)
        
 @app.callback(Output('plot','figure'),
               Input('Select item','value'))
